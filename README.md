@@ -1,11 +1,14 @@
-# CLOUD_PROVIDER TYPE Terraform module
+# GCP Load Balancer Terraform module
 
-Terraform module which creates **TYPE** resources on **CLOUD_PROVIDER**. This module is an abstraction of the [MODULE_NAME](https://github.com/a_great_module) by [@someoneverysmart](https://github.com/someoneverysmart).
+Terraform module which creates **Load Balancer** resources on **GCP**. 
+<!-- This module is an abstraction of the [MODULE_NAME](https://github.com/a_great_module) by [@someoneverysmart](https://github.com/someoneverysmart). -->
 
 ## User Stories for this module
 
-- AATYPE I can be highly available or single zone
-- ...
+- AASRE I can create one load balancer
+- AASRE I can specify multiple backend services
+- AASRE I can specify certificates to be used
+- 
 
 ## Usage
 
