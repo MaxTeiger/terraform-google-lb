@@ -8,7 +8,10 @@ Terraform module which creates **Load Balancer** resources on **GCP**.
 - AASRE I can create one load balancer
 - AASRE I can specify multiple backend services
 - AASRE I can specify certificates to be used
-- 
+- AASRE I can handle granular routing on LB
+- AASRE I can specify the SSL Policy
+- AASRE I can specify the security policy
+- AASRE I can activate CDN on each backend service
 
 ## Usage
 
