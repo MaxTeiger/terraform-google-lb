@@ -6,7 +6,9 @@
 #     - Azure: https://github.com/Azure
 
 resource "google_compute_global_address" "default" {
-  name = var.name
+  count = var.ip_address == null ? 1 : 0
+  name  = var.name
+  ip_version = "IPV4"
 }
 
 resource "google_compute_url_map" "default_https" {
@@ -96,14 +98,14 @@ resource "google_compute_target_http_proxy" "default_http" {
 resource "google_compute_global_forwarding_rule" "default_https" {
   name       = "${var.name}-https"
   target     = google_compute_target_https_proxy.default_https.self_link
-  ip_address = google_compute_global_address.default.address
+  ip_address = local.ip_address
   port_range = 443
 }
 
 resource "google_compute_global_forwarding_rule" "default_http" {
   name       = "${var.name}-http"
   target     = google_compute_target_http_proxy.default_http.self_link
-  ip_address = google_compute_global_address.default.address
+  ip_address = local.ip_address
   port_range = 80
 }
 

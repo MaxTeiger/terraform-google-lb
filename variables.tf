@@ -14,6 +14,16 @@ variable "name" {
   }
 }
 
+variable "ip_address" {
+  description = "Load Balancer IP address"
+  type        = optional(string)
+
+  validation {
+    condition     = regex("^([0-9]{1,3}.){3}[0-9]{1,3}$", var.ip_address)
+    error_message = "Please provide a valid IP address."
+  }
+}
+
 variable "ssl_certificates" {
   description = "SSL certificates for the Load Balancer"
   type        = list(string)
