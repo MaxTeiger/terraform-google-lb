@@ -145,9 +145,11 @@ resource "google_compute_backend_bucket" "default" {
       serve_while_stale            = try(local.cdn_policies[cdn_policy.value].serve_while_stale, null)
       signed_url_cache_max_age_sec = try(local.cdn_policies[cdn_policy.value].signed_url_cache_max_age_sec, null)
 
-      negative_caching_policy {
-        code = try(local.cdn_policies[cdn_policy.value].negative_caching_policy.code, null)
-        ttl  = try(local.cdn_policies[cdn_policy.value].negative_caching_policy.ttl, null)
+      dynamic "negative_caching_policy" {
+        for_each = try(set(local.cdn_policies[cdn_policy.value].negative_caching_policy), {})
+
+        code = try(negative_caching_policy.code, null)
+        ttl  = try(lnegative_caching_policy.ttl, null)
       }
     }
   }
