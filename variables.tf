@@ -16,10 +16,10 @@ variable "name" {
 
 variable "ip_address" {
   description = "Load Balancer IP address"
-  type        = optional(string)
-
+  type        = string
+  default     = ""
   validation {
-    condition     = regex("^([0-9]{1,3}.){3}[0-9]{1,3}$", var.ip_address)
+    condition     = try(regex("^([0-9]{1,3}.){3}[0-9]{1,3}$", var.ip_address), false) || var.ip_address == ""
     error_message = "Please provide a valid IP address."
   }
 }

@@ -4,12 +4,17 @@ locals {
       cache_mode       = "USE_ORIGIN_HEADERS"
       negative_caching = true
       negative_caching_policy = {
-        code = "404"
-        ttl  = "1"
+        "404" = {
+          code = "404"
+          ttl  = "1"
+        },
+        "302" = {
+          code = "302"
+          ttl  = "1"
+        }
       }
     },
   }
   cdn_policies = merge(local.embedded_cdn_policies, var.custom_cdn_policies)
-  ip_address   = var.ip_address == null ? google_compute_global_address.default[0].address : var.ip_address
-
+  ip_address   = var.ip_address == "" ? google_compute_global_address.default[0].address : var.ip_address
 }

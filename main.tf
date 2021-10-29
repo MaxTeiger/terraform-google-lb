@@ -6,8 +6,8 @@
 #     - Azure: https://github.com/Azure
 
 resource "google_compute_global_address" "default" {
-  count = var.ip_address == null ? 1 : 0
-  name  = var.name
+  count      = var.ip_address == "" ? 1 : 0
+  name       = var.name
   ip_version = "IPV4"
 }
 
@@ -148,10 +148,11 @@ resource "google_compute_backend_bucket" "default" {
       signed_url_cache_max_age_sec = try(local.cdn_policies[cdn_policy.value].signed_url_cache_max_age_sec, null)
 
       dynamic "negative_caching_policy" {
-        for_each = try(set(local.cdn_policies[cdn_policy.value].negative_caching_policy), {})
-
-        code = try(negative_caching_policy.code, null)
-        ttl  = try(lnegative_caching_policy.ttl, null)
+        for_each = local.cdn_policies[cdn_policy.value].negative_caching_policy
+        content {
+          code = try(negative_caching_policy.value.code, null)
+          ttl  = try(negative_caching_policy.value.ttl, null)
+        }
       }
     }
   }

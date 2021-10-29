@@ -1,4 +1,4 @@
-output "example" {
-  value       = "ressource_type.name.atttibute"
-  description = "A meaningful description"
+output "ip_address" {
+  value       = local.ip_address
+  description = "The IP Address of the Load Balancer."
 }
