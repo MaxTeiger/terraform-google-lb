@@ -66,12 +66,12 @@ variable "custom_cdn_policies" {
     client_ttl       = optional(number)
     default_ttl      = optional(number)
     max_ttl          = optional(number)
-    negative_caching = optional(number)
-    negative_caching_policy = optional(list(object({
+    negative_caching = optional(bool)
+    negative_caching_policy = optional(map(object({
       code = optional(number)
       ttl  = optional(number)
     })))
-    serve_while_stale            = optional(bool)
+    serve_while_stale            = optional(number)
     signed_url_cache_max_age_sec = optional(number)
   }))
   default = {}
