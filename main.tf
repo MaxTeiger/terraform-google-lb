@@ -5,16 +5,16 @@
 #     - GCP: https://github.com/terraform-google-modules
 #     - Azure: https://github.com/Azure
 
-resource "google_compute_global_address" "default" {
+resource "google_compute_global_address" "this" {
   count      = var.ip_address == "" ? 1 : 0
   name       = var.name
   ip_version = "IPV4"
 }
 
-resource "google_compute_url_map" "default_https" {
+resource "google_compute_url_map" "https" {
   name = "${var.name}-https"
 
-  default_service = try(google_compute_backend_bucket.default[keys(google_compute_backend_bucket.default)[0]].self_link, google_compute_backend_service.default[keys(google_compute_backend_service.default)[0]].self_link)
+  default_service = try(google_compute_backend_bucket.this[keys(google_compute_backend_bucket.this)[0]].self_link, google_compute_backend_service.this[keys(google_compute_backend_service.this)[0]].self_link)
 
   dynamic "host_rule" {
     for_each = var.service_backends
@@ -38,13 +38,13 @@ resource "google_compute_url_map" "default_https" {
     for_each = var.service_backends
     content {
       name            = path_matcher.key
-      default_service = google_compute_backend_service.default[path_matcher.key].self_link
+      default_service = google_compute_backend_service.this[path_matcher.key].self_link
       dynamic "path_rule" {
         for_each = path_matcher.value.path_rules
 
         content {
           paths   = path_rule.value.paths
-          service = google_compute_backend_service.default[path_matcher.key].self_link
+          service = google_compute_backend_service.this[path_matcher.key].self_link
         }
       }
     }
@@ -54,20 +54,20 @@ resource "google_compute_url_map" "default_https" {
     for_each = var.buckets_backends
     content {
       name            = path_matcher.key
-      default_service = google_compute_backend_bucket.default[path_matcher.key].self_link
+      default_service = google_compute_backend_bucket.this[path_matcher.key].self_link
       dynamic "path_rule" {
         for_each = path_matcher.value.path_rules
 
         content {
           paths   = path_rule.value.paths
-          service = google_compute_backend_bucket.default[path_matcher.key].self_link
+          service = google_compute_backend_bucket.this[path_matcher.key].self_link
         }
       }
     }
   }
 }
 
-resource "google_compute_url_map" "default_http" {
+resource "google_compute_url_map" "http" {
   name = "${var.name}-http"
 
   default_url_redirect {
@@ -77,34 +77,34 @@ resource "google_compute_url_map" "default_http" {
   }
 }
 
-resource "google_compute_ssl_policy" "default" {
+resource "google_compute_ssl_policy" "this" {
   name            = var.name
   min_tls_version = "TLS_1_2"
   profile         = "RESTRICTED"
 }
 
-resource "google_compute_target_https_proxy" "default_https" {
+resource "google_compute_target_https_proxy" "this" {
   name             = "${var.name}-https"
-  url_map          = google_compute_url_map.default_https.self_link
+  url_map          = google_compute_url_map.https.self_link
   ssl_certificates = var.ssl_certificates
-  ssl_policy       = google_compute_ssl_policy.default.self_link
+  ssl_policy       = google_compute_ssl_policy.this.self_link
 }
 
-resource "google_compute_target_http_proxy" "default_http" {
+resource "google_compute_target_http_proxy" "this" {
   name    = "${var.name}-http"
-  url_map = google_compute_url_map.default_http.self_link
+  url_map = google_compute_url_map.http.self_link
 }
 
-resource "google_compute_global_forwarding_rule" "default_https" {
+resource "google_compute_global_forwarding_rule" "https" {
   name       = "${var.name}-https"
-  target     = google_compute_target_https_proxy.default_https.self_link
+  target     = google_compute_target_https_proxy.this.self_link
   ip_address = local.ip_address
   port_range = 443
 }
 
-resource "google_compute_global_forwarding_rule" "default_http" {
+resource "google_compute_global_forwarding_rule" "http" {
   name       = "${var.name}-http"
-  target     = google_compute_target_http_proxy.default_http.self_link
+  target     = google_compute_target_http_proxy.this.self_link
   ip_address = local.ip_address
   port_range = 80
 }
@@ -114,7 +114,7 @@ resource "google_compute_global_forwarding_rule" "default_http" {
 # BACKEND SERVICES
 # -----------------------------
 # SERVICE
-resource "google_compute_backend_service" "default" {
+resource "google_compute_backend_service" "this" {
   for_each        = var.service_backends
   name            = "${var.name}-${each.key}"
   security_policy = each.value.security_policy
@@ -129,7 +129,7 @@ resource "google_compute_backend_service" "default" {
 }
 
 # BUCKET
-resource "google_compute_backend_bucket" "default" {
+resource "google_compute_backend_bucket" "this" {
   for_each = var.buckets_backends
 
   name        = "${var.name}-${each.key}"
