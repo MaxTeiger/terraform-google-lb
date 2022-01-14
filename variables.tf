@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "name" {
-  description = "Load Balancer name"
+  description = "The load balancer name."
   type        = string
 
   validation {
@@ -15,7 +15,7 @@ variable "name" {
 }
 
 variable "ip_address" {
-  description = "Load Balancer IP address"
+  description = "The load balancer's IP address."
   type        = string
   default     = ""
   validation {
@@ -25,7 +25,7 @@ variable "ip_address" {
 }
 
 variable "ssl_certificates" {
-  description = "SSL certificates for the Load Balancer"
+  description = "A list of SSL certificates for the load balancer."
   type        = list(string)
   default     = []
 
@@ -36,7 +36,7 @@ variable "ssl_certificates" {
 }
 
 variable "buckets_backends" {
-  description = "Map of buckets to add as Load Balancer backends"
+  description = "A map of buckets to add as the load balancer backends."
   type = map(object({
     hosts       = list(string)
     bucket_name = string
@@ -48,7 +48,7 @@ variable "buckets_backends" {
 }
 
 variable "service_backends" {
-  description = "Map of services to add as Load Balancer backends."
+  description = "A map of services to add as the load balancer backends."
   type = map(object({
     hosts  = list(string)
     groups = list(string)
@@ -60,7 +60,7 @@ variable "service_backends" {
 }
 
 variable "custom_cdn_policies" {
-  description = "Custom CDN Policies you can add to default policies supported by module"
+  description = "A map of additional custom CDN policies you can add to the load balancer."
   type = map(object({
     cache_mode       = optional(string)
     client_ttl       = optional(number)

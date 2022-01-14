@@ -12,5 +12,5 @@ locals {
     },
   }
   cdn_policies = merge(local.embedded_cdn_policies, var.custom_cdn_policies)
-  ip_address   = var.ip_address == "" ? google_compute_global_address.default[0].address : var.ip_address
+  ip_address   = var.ip_address == "" ? google_compute_global_address.this[0].address : var.ip_address
 }

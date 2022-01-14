@@ -9,7 +9,7 @@ data "google_compute_ssl_certificate" "playground" {
   name = "playground-tls"
 }
 
-module "use_case_2" {
+module "multi_backend_lb" {
   source = "../.."
 
   name = "lb-library"
