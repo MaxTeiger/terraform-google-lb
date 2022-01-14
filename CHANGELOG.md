@@ -6,10 +6,8 @@
 
 **Merged pull requests:**
 
-- chore: remove useless comments [\#6](https://github.com/padok-team/terraform-google-lb/pull/6) ([spoukke](https://github.com/spoukke))
-- Chore/license and codeowners [\#5](https://github.com/padok-team/terraform-google-lb/pull/5) ([spoukke](https://github.com/spoukke))
-- style: use tf naming conventions [\#4](https://github.com/padok-team/terraform-google-lb/pull/4) ([spoukke](https://github.com/spoukke))
-- docs: improve readme [\#3](https://github.com/padok-team/terraform-google-lb/pull/3) ([edix9](https://github.com/edix9))
+- fix: change provider requirements [\#8](https://github.com/padok-team/terraform-google-lb/pull/8) ([edix9](https://github.com/edix9))
+- docs: add changelog [\#7](https://github.com/padok-team/terraform-google-lb/pull/7) ([edix9](https://github.com/edix9))
 
 ## [v1.0.0](https://github.com/padok-team/terraform-google-lb/tree/v1.0.0) (2022-01-14)
 
@@ -17,6 +15,10 @@
 
 **Merged pull requests:**
 
+- chore: remove useless comments [\#6](https://github.com/padok-team/terraform-google-lb/pull/6) ([spoukke](https://github.com/spoukke))
+- Chore/license and codeowners [\#5](https://github.com/padok-team/terraform-google-lb/pull/5) ([spoukke](https://github.com/spoukke))
+- style: use tf naming conventions [\#4](https://github.com/padok-team/terraform-google-lb/pull/4) ([spoukke](https://github.com/spoukke))
+- docs: improve readme [\#3](https://github.com/padok-team/terraform-google-lb/pull/3) ([edix9](https://github.com/edix9))
 - Feat: allow using multiple negative caching policies in cdn\_policy [\#2](https://github.com/padok-team/terraform-google-lb/pull/2) ([piaverous](https://github.com/piaverous))
 - Feat: allow using existing ip [\#1](https://github.com/padok-team/terraform-google-lb/pull/1) ([piaverous](https://github.com/piaverous))
 
