@@ -16,7 +16,7 @@ Terraform module which creates **Load Balancer** resources on **GCP**.
 ## Usage
 
 ```hcl
-module "example" {
+module "my_lb" {
   source = "../.."
 
   name = "my-lb"
@@ -50,7 +50,7 @@ module "example" {
 
 ### Embedded CDN Policies
 
-This module supports these CDN policies you can reference directly in the module usage :
+Currently, this module only supports the following CDN policy. You can reference it directly in the module usage:
 
 - **react**
 
@@ -67,18 +67,16 @@ react = {
 }
 ```
 
-Don't hesitate to add common cdn policies that could benefit everyone !
+Don't hesitate to add other CDN policies!
 
-### Custom CDN Policies support
+Alternatively, you can set custom CDN Policies as explained in the [Terraform documentation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_backend_bucket#cdn_policy).
 
-You can set custom CDN Policies that is the exact object type of cdn_policy attribute [here](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_backend_bucket#cdn_policy)
+> :warning: The structure of the resource might change, we're based on google provider 3.90 version.
 
-> :warning the structure of the resource might change, we're based on google provider 3.90 version.
+## Usage examples
 
-## Examples
-
-- [Multiple backend usecase](examples/multi-backend-lb/main.tf)
-- [Custom CDN Policy](examples/custom-cdn-policy/main.tf)
+- [Multiple backend usage](examples/multi-backend-lb/main.tf)
+- [Custom CDN Policy usage](examples/custom-cdn-policy/main.tf)
 
 <!-- BEGIN_TF_DOCS -->
 ## Modules
