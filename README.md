@@ -17,7 +17,7 @@ Terraform module which creates **Load Balancer** resources on **GCP**.
 
 ```hcl
 module "my_lb" {
-  source = "../.."
+  source = "git@github.com:padok-team/terraform-google-lb.git?ref=v1.0.1"
 
   name = "my-lb"
   buckets_backends = {
