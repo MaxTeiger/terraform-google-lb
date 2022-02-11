@@ -107,9 +107,25 @@ resource "google_compute_global_forwarding_rule" "http" {
 # BACKEND SERVICES
 # -----------------------------
 # SERVICE
+
+# create a random_id to suffix `google_compute_backend_service.this`
+# > required to enable `lifecycle.create_before_destroy`
+resource "random_id" "backend_service" {
+  for_each = var.service_backends
+
+  byte_length = 4
+  prefix      = "${var.name}-${each.key}-"
+
+  keepers = {
+    security_policy = each.value.security_policy
+    groups          = join(",", each.value["groups"])
+  }
+}
+
 resource "google_compute_backend_service" "this" {
-  for_each        = var.service_backends
-  name            = "${var.name}-${each.key}"
+  for_each = var.service_backends
+
+  name            = random_id.backend_service[each.key].hex
   security_policy = each.value.security_policy
   enable_cdn      = false
 
@@ -119,13 +135,33 @@ resource "google_compute_backend_service" "this" {
       group = backend.value
     }
   }
+
+  lifecycle {
+    # Need because url_map updating after terraform try to delete the resource
+    create_before_destroy = true
+  }
 }
 
 # BUCKET
+
+# create a random_id to suffix `google_compute_backend_bucket.this`
+# > required to enable `lifecycle.create_before_destroy`
+resource "random_id" "backend_bucket" {
+  for_each = var.buckets_backends
+
+  byte_length = 4
+  prefix      = "${var.name}-${each.key}-"
+
+  keepers = {
+    bucket_name  = each.value.bucket_name
+    cdn_policies = each.value.cdn_policy == null ? jsonencode(local.cdn_policies) : ""
+  }
+}
+
 resource "google_compute_backend_bucket" "this" {
   for_each = var.buckets_backends
 
-  name        = "${var.name}-${each.key}"
+  name        = random_id.backend_bucket[each.key].hex
   bucket_name = each.value.bucket_name
   enable_cdn  = each.value.cdn_policy == null ? false : true
 
@@ -148,5 +184,10 @@ resource "google_compute_backend_bucket" "this" {
         }
       }
     }
+  }
+
+  lifecycle {
+    # Need because url_map updating after terraform try to delete the resource
+    create_before_destroy = true
   }
 }
