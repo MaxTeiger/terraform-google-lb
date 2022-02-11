@@ -107,6 +107,9 @@ resource "google_compute_global_forwarding_rule" "http" {
 # BACKEND SERVICES
 # -----------------------------
 # SERVICE
+
+# create a random_id to suffix `google_compute_backend_service.this`
+# > required to enable `lifecycle.create_before_destroy`
 resource "random_id" "backend_service" {
   for_each = var.service_backends
 
@@ -140,6 +143,9 @@ resource "google_compute_backend_service" "this" {
 }
 
 # BUCKET
+
+# create a random_id to suffix `google_compute_backend_bucket.this`
+# > required to enable `lifecycle.create_before_destroy`
 resource "random_id" "backend_bucket" {
   for_each = var.buckets_backends
 
