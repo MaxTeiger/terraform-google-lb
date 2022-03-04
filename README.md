@@ -1,4 +1,4 @@
-# GCP Load Balancer Terraform module
+# Google Load Balancer Terraform module
 
 Terraform module which creates **Load Balancer** resources on **GCP**. 
 <!-- This module is an abstraction of the [MODULE_NAME](https://github.com/a_great_module) by [@someoneverysmart](https://github.com/someoneverysmart). -->
@@ -76,7 +76,8 @@ Alternatively, you can set custom CDN Policies as explained in the [Terraform do
 ## Usage examples
 
 - [Multiple backend usage](examples/multi-backend-lb/main.tf)
-- [Custom CDN Policy usage](examples/custom-cdn-policy/main.tf)
+- [Custom CDN policy usage](examples/custom-cdn-policy/main.tf)
+- [Custom certificate usage](examples/lb-with-custom-certificate/main.tf)
 
 <!-- BEGIN_TF_DOCS -->
 ## Modules
@@ -87,18 +88,18 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_buckets_backends"></a> [buckets\_backends](#input\_buckets\_backends) | Map of buckets to add as Load Balancer backends | <pre>map(object({<br>    hosts       = list(string)<br>    bucket_name = string<br>    cdn_policy  = optional(string)<br>    path_rules = list(object({<br>      paths = list(string)<br>    }))<br>  }))</pre> | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Load Balancer name | `string` | n/a | yes |
-| <a name="input_service_backends"></a> [service\_backends](#input\_service\_backends) | Map of services to add as Load Balancer backends. | <pre>map(object({<br>    hosts  = list(string)<br>    groups = list(string)<br>    path_rules = list(object({<br>      paths = list(string)<br>    }))<br>    security_policy = optional(string)<br>  }))</pre> | n/a | yes |
-| <a name="input_custom_cdn_policies"></a> [custom\_cdn\_policies](#input\_custom\_cdn\_policies) | Custom CDN Policies you can add to default policies supported by module | <pre>map(object({<br>    cache_mode       = optional(string)<br>    client_ttl       = optional(number)<br>    default_ttl      = optional(number)<br>    max_ttl          = optional(number)<br>    negative_caching = optional(bool)<br>    negative_caching_policy = optional(map(object({<br>      code = optional(number)<br>      ttl  = optional(number)<br>    })))<br>    serve_while_stale            = optional(number)<br>    signed_url_cache_max_age_sec = optional(number)<br>  }))</pre> | `{}` | no |
-| <a name="input_ip_address"></a> [ip\_address](#input\_ip\_address) | Load Balancer IP address | `string` | `""` | no |
-| <a name="input_ssl_certificates"></a> [ssl\_certificates](#input\_ssl\_certificates) | SSL certificates for the Load Balancer | `list(string)` | `[]` | no |
+| <a name="input_buckets_backends"></a> [buckets\_backends](#input\_buckets\_backends) | A map of buckets to add as the load balancer backends. | <pre>map(object({<br>    hosts       = list(string)<br>    bucket_name = string<br>    cdn_policy  = optional(string)<br>    path_rules = list(object({<br>      paths = list(string)<br>    }))<br>  }))</pre> | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | The load balancer name. | `string` | n/a | yes |
+| <a name="input_service_backends"></a> [service\_backends](#input\_service\_backends) | A map of services to add as the load balancer backends. | <pre>map(object({<br>    hosts  = list(string)<br>    groups = list(string)<br>    path_rules = list(object({<br>      paths = list(string)<br>    }))<br>    security_policy = optional(string)<br>  }))</pre> | n/a | yes |
+| <a name="input_custom_cdn_policies"></a> [custom\_cdn\_policies](#input\_custom\_cdn\_policies) | A map of additional custom CDN policies you can add to the load balancer. | <pre>map(object({<br>    cache_mode       = optional(string)<br>    client_ttl       = optional(number)<br>    default_ttl      = optional(number)<br>    max_ttl          = optional(number)<br>    negative_caching = optional(bool)<br>    negative_caching_policy = optional(map(object({<br>      code = optional(number)<br>      ttl  = optional(number)<br>    })))<br>    serve_while_stale            = optional(number)<br>    signed_url_cache_max_age_sec = optional(number)<br>  }))</pre> | `{}` | no |
+| <a name="input_ip_address"></a> [ip\_address](#input\_ip\_address) | The load balancer's IP address. | `string` | `""` | no |
+| <a name="input_ssl_certificates"></a> [ssl\_certificates](#input\_ssl\_certificates) | A list of SSL certificates for the load balancer. | `list(string)` | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_ip_address"></a> [ip\_address](#output\_ip\_address) | The IP Address of the Load Balancer. |
+| <a name="output_ip_address"></a> [ip\_address](#output\_ip\_address) | The IP address of the load balancer. |
 <!-- END_TF_DOCS -->
 
 ## License
@@ -124,4 +125,4 @@ software distributed under the License is distributed on an
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
-```)
+```
