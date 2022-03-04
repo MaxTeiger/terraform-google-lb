@@ -1,7 +1,7 @@
 # Short description of the use case in comments
 
 provider "google" {
-  project = "padok-playground"
+  project = "padok-cloud-factory"
   region  = "europe-west1"
 }
 
@@ -13,6 +13,7 @@ module "multi_backend_lb" {
   source = "../.."
 
   name = "lb-library"
+
   buckets_backends = {
     frontend = {
       hosts = ["frontend-library.playground.padok.cloud"]
@@ -22,7 +23,6 @@ module "multi_backend_lb" {
         }
       ]
       bucket_name = "padok-helm-library"
-      cdn_policy  = "react"
     }
   }
   service_backends = {
